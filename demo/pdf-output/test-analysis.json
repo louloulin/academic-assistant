@@ -1,0 +1,123 @@
+{
+  "metadata": {
+    "title": "A Novel Approach to Machine Learning",
+    "authors": [],
+    "pages": 1,
+    "abstract": "This paper presents a novel approach to machine learning that achieves state-of-the-art results on multiple benchmarks. Our method combines deep learning with traditional statistical methods to improve accuracy by 15% compared to existing approaches.",
+    "keywords": [
+      "machine learning, deep learning, neural networks, artificial intelligence"
+    ]
+  },
+  "structure": {
+    "sections": [
+      {
+        "title": "Unknown",
+        "level": 1,
+        "pageStart": 1,
+        "content": "This paper presents a novel approach to machine learning that achieves state-of-the-art results on multiple benchmarks. Our method combines deep learning with traditional statistical methods to improve accuracy by 15% compared to existing approaches.\n\nKeywords: machine learning, deep learning, neural networks, artificial intelligence"
+      },
+      {
+        "title": "Introduction",
+        "level": 2,
+        "pageStart": 1,
+        "content": "Machine learning has revolutionized the field of artificial intelligence in recent years. This paper introduces a new method that..."
+      },
+      {
+        "title": "Related Work",
+        "level": 2,
+        "pageStart": 1,
+        "content": "Several approaches have been proposed in the literature..."
+      },
+      {
+        "title": "Deep Learning",
+        "level": 2,
+        "pageStart": 1,
+        "content": "Deep neural networks have shown remarkable performance..."
+      },
+      {
+        "title": "Methodology",
+        "level": 2,
+        "pageStart": 1,
+        "content": "Our approach consists of three main components..."
+      },
+      {
+        "title": "Data Collection",
+        "level": 2,
+        "pageStart": 1,
+        "content": "We collected data from multiple sources..."
+      },
+      {
+        "title": "Model Architecture",
+        "level": 2,
+        "pageStart": 1,
+        "content": "The model architecture is shown in Figure 1.\n\nTable 1: Performance Comparison\nMethod      Accuracy   F1-Score\nOur Method  95.2%      0.94\nBaseline    82.3%      0.81"
+      },
+      {
+        "title": "Results",
+        "level": 2,
+        "pageStart": 1,
+        "content": "Our experimental results show that the proposed method achieves significant improvements. The statistical analysis reveals that p < 0.001, indicating strong significance.\n\nEquation 1: Loss Function\nL = -Σ[y*log(ŷ) + (1-y)*log(1-ŷ)]\n\nWe found that the model converges faster with our proposed optimization strategy."
+      },
+      {
+        "title": "Discussion",
+        "level": 2,
+        "pageStart": 1,
+        "content": "The results demonstrate the effectiveness of our approach..."
+      },
+      {
+        "title": "Conclusion",
+        "level": 2,
+        "pageStart": 1,
+        "content": "In this paper, we presented a novel machine learning approach that achieves state-of-the-art results. Future work will focus on extending the method to other domains."
+      },
+      {
+        "title": "Unknown",
+        "level": 1,
+        "pageStart": 1,
+        "content": "Doe, J., & Smith, J. (2024). A novel approach to machine learning. Journal of AI Research, 15(3), 123-145.\nSmith, A., & Jones, B. (2023). Deep learning fundamentals. International Conference on ML."
+      }
+    ]
+  },
+  "tables": [
+    {
+      "id": "table-1",
+      "caption": "Performance Comparison",
+      "page": 1,
+      "data": []
+    }
+  ],
+  "formulas": [],
+  "keyFindings": [
+    "shown remarkable performance.",
+    "shown in Figure 1.",
+    "results show that the proposed method achieves significant improvements.",
+    "reveals that p < 0.",
+    "results demonstrate the effectiveness of our approach.",
+    "We found that the model converges faster with our proposed optimization strategy."
+  ],
+  "statistics": [
+    {
+      "description": "Statistical result",
+      "value": "p < 0.001",
+      "page": 1
+    }
+  ],
+  "references": [
+    {
+      "year": 2024,
+      "title": "A novel approach to machine learning.",
+      "source": "("
+    },
+    {
+      "year": 2023,
+      "title": "Deep learning fundamentals.",
+      "source": "("
+    }
+  ],
+  "extractionInfo": {
+    "filePath": "demo/test-paper.txt",
+    "analyzedAt": "2026-01-10T10:41:29.097Z",
+    "processingTime": 7,
+    "confidence": 0.7
+  }
+}

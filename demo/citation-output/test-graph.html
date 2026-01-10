@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Citation Graph Visualization</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        #graph {
+            width: 1200px;
+            height: 800px;
+            border: 1px solid #ccc;
+            margin: 20px auto;
+        }
+        .info {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #f5f5f5;
+            border-radius: 5px;
+        }
+        .node {
+            stroke: #fff;
+            stroke-width: 1.5px;
+        }
+        .link {
+            stroke: #999;
+            stroke-opacity: 0.6;
+        }
+        .tooltip {
+            position: absolute;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            border-radius: 4px;
+            pointer-events: none;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Citation Graph Visualization</h1>
+
+    <div class="info">
+        <h2>Graph Metrics</h2>
+        <ul>
+            <li>Total Papers: 0</li>
+            <li>Total Citations: 0</li>
+            <li>Network Density: 0.0000</li>
+            <li>Average Degree: 0.00</li>
+        </ul>
+
+        <h2>Key Papers</h2>
+        <ol>
+            
+        </ol>
+    </div>
+
+    <div id="graph"></div>
+
+    <script>
+        const graph = {
+  "nodes": [],
+  "edges": []
+};
+
+        // Color scale for communities
+        const color = d3.scaleOrdinal(d3.schemeCategory10);
+
+        // Create SVG
+        const svg = d3.select("#graph")
+            .append("svg")
+            .attr("width", 1200)
+            .attr("height", 800)
+            .call(d3.zoom().on("zoom", (event) => {
+                g.attr("transform", event.transform);
+            }))
+            .append("g");
+
+        const g = svg.append("g");
+
+        // Create force simulation
+        const simulation = d3.forceSimulation(graph.nodes)
+            .force("link", d3.forceLink(graph.edges).id(d => d.id).distance(100))
+            .force("charge", d3.forceManyBody().strength(-300))
+            .force("center", d3.forceCenter(600, 400))
+            .force("collision", d3.forceCollide().radius(20));
+
+        // Create links
+        const link = g.append("g")
+            .attr("class", "links")
+            .selectAll("line")
+            .data(graph.edges)
+            .join("line")
+            .attr("class", "link")
+            .attr("stroke-width", d => Math.sqrt(d.weight));
+
+        // Create nodes
+        const node = g.append("g")
+            .attr("class", "nodes")
+            .selectAll("circle")
+            .data(graph.nodes)
+            .join("circle")
+            .attr("class", "node")
+            .attr("r", d => 5 + d.pageRank * 5000)
+            .attr("fill", d => color(d.community))
+            .call(d3.drag()
+                .on("start", dragstarted)
+                .on("drag", dragged)
+                .on("end", dragended));
+
+        // Add tooltips
+        const tooltip = d3.select("body").append("div")
+            .attr("class", "tooltip")
+            .style("opacity", 0);
+
+        node.on("mouseover", function(event, d) {
+            tooltip.transition()
+                .duration(200)
+                .style("opacity", .9);
+            tooltip.html(`
+                <strong>${d.title}</strong><br/>
+                Authors: ${d.authors.slice(0, 3).join(", ")}<br/>
+                Year: ${d.year || "N/A"}<br/>
+                Citations: ${d.citations}<br/>
+                PageRank: ${d.pageRank.toFixed(4)}
+            `)
+                .style("left", (event.pageX + 10) + "px")
+                .style("top", (event.pageY - 28) + "px");
+        })
+        .on("mouseout", function() {
+            tooltip.transition()
+                .duration(500)
+                .style("opacity", 0);
+        });
+
+        // Update positions
+        simulation.on("tick", () => {
+            link
+                .attr("x1", d => d.source.x)
+                .attr("y1", d => d.source.y)
+                .attr("x2", d => d.target.x)
+                .attr("y2", d => d.target.y);
+
+            node
+                .attr("cx", d => d.x)
+                .attr("cy", d => d.y);
+        });
+
+        function dragstarted(event, d) {
+            if (!event.active) simulation.alphaTarget(0.3).restart();
+            d.fx = d.x;
+            d.fy = d.y;
+        }
+
+        function dragged(event, d) {
+            d.fx = event.x;
+            d.fy = event.y;
+        }
+
+        function dragended(event, d) {
+            if (!event.active) simulation.alphaTarget(0);
+            d.fx = null;
+            d.fy = null;
+        }
+    </script>
+</body>
+</html>
