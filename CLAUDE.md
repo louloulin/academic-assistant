@@ -60,11 +60,43 @@ academic-assistant/
 
 ## Available Skills
 
-When working on this project, Claude has access to these Skills:
+When working on this project, Claude has access to these **8 fully implemented Skills**:
 
-- **literature-search**: Search academic papers across multiple databases
-- **citation-manager**: Format and validate citations in multiple styles
+### Core AI Skills (100% Complete)
+
+1. **literature-search**: Search academic papers across multiple databases
+   - Supports: ArXiv, Semantic Scholar, PubMed
+   - Features: Deduplication, relevance scoring, keyword extraction
+
+2. **citation-manager**: Format and validate citations in multiple styles
+   - Supports: APA, MLA, Chicago, IEEE, Harvard
+   - Features: In-text citations, bibliography generation
+
+3. **paper-structure**: Generate paper structure following IMRaD format
+   - Supports: Research paper, review, conference, thesis, short communication
+   - Features: Word count estimation, writing tips
+
+4. **writing-quality**: Check and improve academic writing quality
+   - Checks: Grammar, clarity, tone, readability, consistency, vocabulary
+   - Features: Quality scoring (0-100), improvement suggestions
+
+5. **literature-review**: Analyze and synthesize academic papers
+   - Features: Theme identification, methodology analysis, gap detection
+
+6. **peer-review**: Simulate academic peer review process
+   - Features: Section-wise review, decision generation (accept/revisions/reject)
+
+7. **data-analysis**: Provide statistical analysis recommendations
+   - Features: Analysis planning, visualization suggestions, reporting guidelines
+
+8. **journal-submission**: Assist with journal selection and submission
+   - Features: Journal recommendations, cover letter generation, submission checklist
+
+### Agent Skills
+
 - **workflow-manager**: Orchestrate complex multi-step research tasks
+  - Uses fork context for isolated execution
+  - Coordinates multiple agents and skills
 
 These Skills are automatically invoked when relevant to the task.
 
