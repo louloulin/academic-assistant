@@ -1,5 +1,6 @@
 // Agent interface
-import type { Task, AgentStatus, AgentConfig } from '../types/agent.js';
+import type { Task } from '../types/task.js';
+import type { AgentStatus, AgentConfig } from '../types/agent.js';
 
 export interface IAgent {
   readonly id: string;

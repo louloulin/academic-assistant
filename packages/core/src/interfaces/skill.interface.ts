@@ -1,5 +1,6 @@
 // Skill interface
-import type { Task, SkillConfig } from '../types/skill.js';
+import type { Task } from '../types/task.js';
+import type { SkillConfig } from '../types/skill.js';
 
 export interface ISkill {
   readonly id: string;

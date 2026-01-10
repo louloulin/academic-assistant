@@ -4,6 +4,7 @@ import type { Task, AgentConfig } from '@assistant/core';
 import type { ISkill } from '@assistant/core';
 import type { IMCPClient } from '@assistant/mcp-client';
 import { log } from '@assistant/utils';
+import { TaskStatus } from '@assistant/core';
 
 interface WorkflowConfig {
   skills: Map<string, ISkill>;
@@ -24,7 +25,7 @@ interface ExecutionStep {
 
 export class WorkflowManagerAgent extends BaseAgent {
   readonly type = 'workflow-manager';
-  private config: WorkflowConfig;
+  private workflowConfig: WorkflowConfig;
 
   constructor(
     id: string,
@@ -33,11 +34,11 @@ export class WorkflowManagerAgent extends BaseAgent {
     workflowConfig: WorkflowConfig
   ) {
     super(id, 'workflow-manager', name, config);
-    this.config = workflowConfig;
+    this.workflowConfig = workflowConfig;
   }
 
   protected async onInitialize(): Promise<void> {
-    log.info(`${this.name} initialized with ${this.config.skills.size} skills`);
+    log.info(`${this.name} initialized with ${this.workflowConfig.skills.size} skills`);
   }
 
   protected async onExecute<T, U>(task: Task<T, U>): Promise<Task<T, U>> {
@@ -74,7 +75,7 @@ export class WorkflowManagerAgent extends BaseAgent {
     const subtasks: Task[] = [];
 
     for (const step of plan.steps) {
-      const skill = this.config.skills.get(step.skillId);
+      const skill = this.workflowConfig.skills.get(step.skillId);
       if (!skill) {
         log.warn(`No skill found for: ${step.skillId}`);
         continue;
@@ -83,7 +84,7 @@ export class WorkflowManagerAgent extends BaseAgent {
       const subtask: Task = {
         id: crypto.randomUUID(),
         title: step.title,
-        status: 'pending',
+        status: TaskStatus.PENDING,
         priority: 2,
         input: step.input,
         createdAt: new Date(),
@@ -105,7 +106,7 @@ export class WorkflowManagerAgent extends BaseAgent {
         const skillId = subtask.requiredSkills?.[0];
         if (!skillId) continue;
 
-        const skill = this.config.skills.get(skillId);
+        const skill = this.workflowConfig.skills.get(skillId);
         if (!skill) {
           throw new Error(`Skill not found: ${skillId}`);
         }
@@ -114,7 +115,7 @@ export class WorkflowManagerAgent extends BaseAgent {
         results.push(result);
       } catch (error) {
         log.error(`Subtask failed: ${error}`);
-        subtask.status = 'failed';
+        subtask.status = TaskStatus.FAILED;
         subtask.error = error instanceof Error ? error.message : 'Unknown error';
         results.push(subtask);
       }

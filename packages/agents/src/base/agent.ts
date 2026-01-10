@@ -3,9 +3,10 @@ import type { IAgent, IEventBus } from '@assistant/core';
 import type { Task, AgentStatus, AgentConfig } from '@assistant/core';
 import { EventEmitter } from 'events';
 import { log } from '@assistant/utils';
+import { AgentStatus as AgentStatusEnum, TaskStatus } from '@assistant/core';
 
 export abstract class BaseAgent extends EventEmitter implements IAgent {
-  protected status: AgentStatus = 'idle';
+  protected status: AgentStatus = AgentStatusEnum.IDLE;
   protected currentTask: Task | null = null;
 
   constructor(
@@ -24,13 +25,13 @@ export abstract class BaseAgent extends EventEmitter implements IAgent {
   }
 
   async execute<T, U>(task: Task<T, U>): Promise<Task<T, U>> {
-    if (this.status === 'busy') {
+    if (this.status === AgentStatusEnum.BUSY) {
       throw new Error(`${this.name} is busy`);
     }
 
-    this.status = 'busy';
+    this.status = AgentStatusEnum.BUSY;
     this.currentTask = task;
-    task.status = 'in-progress';
+    task.status = TaskStatus.IN_PROGRESS;
     task.startedAt = new Date();
 
     this.emit('task:start', { taskId: task.id, agentId: this.id });
@@ -40,14 +41,14 @@ export abstract class BaseAgent extends EventEmitter implements IAgent {
 
       const result = await this.onExecute(task);
 
-      result.status = 'completed';
+      result.status = TaskStatus.COMPLETED;
       result.completedAt = new Date();
 
       this.emit('task:complete', { taskId: task.id, agentId: this.id, result });
 
       return result;
     } catch (error) {
-      task.status = 'failed';
+      task.status = TaskStatus.FAILED;
       task.error = error instanceof Error ? error.message : 'Unknown error';
 
       this.emit('task:failed', { taskId: task.id, agentId: this.id, error });
@@ -56,7 +57,7 @@ export abstract class BaseAgent extends EventEmitter implements IAgent {
 
       throw error;
     } finally {
-      this.status = 'idle';
+      this.status = AgentStatusEnum.IDLE;
       this.currentTask = null;
     }
   }
@@ -66,7 +67,7 @@ export abstract class BaseAgent extends EventEmitter implements IAgent {
   }
 
   canHandle(task: Task): boolean {
-    return this.status !== 'busy';
+    return this.status !== AgentStatusEnum.BUSY;
   }
 
   async dispose(): Promise<void> {

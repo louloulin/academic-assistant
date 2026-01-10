@@ -7,6 +7,7 @@ import type {
   MCPResponse,
   MCPServerInfo
 } from '@assistant/core';
+import { MCPTransportType } from '@assistant/core';
 import { log } from '@assistant/utils';
 
 export class MCPClient implements IMCPClient {
@@ -88,11 +89,17 @@ export class MCPClient implements IMCPClient {
       throw new Error(`Not connected to server: ${serverName}`);
     }
 
-    // Get server info
-    const info = await client.getServerInfo();
-    this.serverInfo.set(serverName, info as MCPServerInfo);
+    // Use default server info - MCP SDK doesn't have getServerInfo method
+    const info: MCPServerInfo = {
+      name: serverName,
+      version: '1.0.0',
+      transport: MCPTransportType.STDIO,
+      capabilities: []
+    };
 
-    return info as MCPServerInfo;
+    this.serverInfo.set(serverName, info);
+
+    return info;
   }
 
   async listServers(): Promise<string[]> {

@@ -4,6 +4,7 @@ import type { IMCPClient } from '@assistant/mcp-client';
 import { validateInput } from '@assistant/utils';
 import { z } from 'zod';
 import { log } from '@assistant/utils';
+import { SkillType, TaskStatus } from '@assistant/core';
 
 const SearchInputSchema = z.object({
   query: z.string().min(1),
@@ -32,7 +33,7 @@ export interface Paper {
 
 const skillConfig: SkillConfig = {
   id: 'literature-search',
-  type: 'literature-search' as const,
+  type: SkillType.LITERATURE_SEARCH,
   name: 'Literature Search',
   description: 'Search academic papers from multiple sources',
   version: '1.0.0',
@@ -49,7 +50,7 @@ export class LiteratureSearchSkill implements ISkill {
   constructor(private mcpClient: IMCPClient) {}
 
   canHandle<T>(task: Task<T>): boolean {
-    return task.assignedAgent === undefined || task.requiredSkills?.includes(this.id);
+    return task.assignedAgent === undefined || (task.requiredSkills !== undefined && task.requiredSkills.includes(this.id));
   }
 
   async validate<T>(input: T): Promise<boolean> {
@@ -61,9 +62,9 @@ export class LiteratureSearchSkill implements ISkill {
     }
   }
 
-  async execute<T extends SearchInput, U = Paper[]>(task: Task<T, U>): Promise<Task<T, U>> {
+  async execute<T, U>(task: Task<T, U>): Promise<Task<T, U>> {
     // Validate input
-    const validatedInput = await validateInput(SearchInputSchema, task.input);
+    const validatedInput = await validateInput(SearchInputSchema, task.input as any);
 
     log.info(`Searching papers: ${validatedInput.query}`);
 
@@ -96,7 +97,7 @@ export class LiteratureSearchSkill implements ISkill {
     return {
       ...task,
       output: finalResults as U,
-      status: 'completed',
+      status: TaskStatus.COMPLETED,
       updatedAt: new Date()
     };
   }
