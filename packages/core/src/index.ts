@@ -8,3 +8,4 @@ export * from './interfaces/skill.interface.js';
 export * from './interfaces/mcp-client.interface.js';
 export * from './interfaces/event-bus.interface.js';
 export * from './constants/agent-types.js';
+export * from './registries/agent-definitions.js';

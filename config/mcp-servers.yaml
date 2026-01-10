@@ -1,0 +1,24 @@
+# MCP Servers Configuration
+# 定义所有可用的MCP服务器及其连接参数
+
+servers:
+  # Academic Paper Search MCP Server
+  # 提供ArXiv、ACL Anthology等学术数据库搜索
+  - name: academic-search
+    command: npx
+    args: ['-y', '@afrise/academic-search-mcp-server']
+    enabled: true
+
+  # ArXiv MCP Server
+  # 专门的ArXiv预印本搜索
+  - name: arxiv
+    command: npx
+    args: ['-y', 'arxiv-mcp-server']
+    enabled: true
+
+  # Research Papers MCP Server
+  # 综合研究论文搜索
+  - name: research-papers
+    command: npx
+    args: ['-y', 'research-papers-mcp-server']
+    enabled: false  # 可选禁用

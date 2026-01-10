@@ -1,0 +1,40 @@
+# Default Configuration
+# 学术助手的主配置文件
+
+# MCP服务器配置
+mcp:
+  servers: []  # 将从mcp-servers.yaml加载
+
+# Agent配置
+agents:
+  literature-searcher:
+    model: claude-3-5-sonnet-20241022
+    temperature: 0.3
+    maxTokens: 4096
+
+  citation-manager:
+    model: claude-3-5-sonnet-20241022
+    temperature: 0.2
+    maxTokens: 2048
+
+  academic-writer:
+    model: claude-3-5-sonnet-20241022
+    temperature: 0.7
+    maxTokens: 8192
+
+# 启用的Skills
+skills:
+  enabled:
+    - literature-search
+    - citation-manager
+    - paper-structure
+    - literature-review
+    - writing-quality
+    - peer-review
+    - data-analysis
+    - journal-submission
+
+# 可观测性配置
+observability:
+  logLevel: info  # trace, debug, info, warn, error
+  enableMetrics: true

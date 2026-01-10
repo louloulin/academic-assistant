@@ -18,8 +18,10 @@
   "exclude": ["node_modules", "dist", ".next"],
   "references": [
     { "path": "./packages/core" },
-    { "path": "./packages/utils" },
+    { "path": "./packages/infrastructure" },
+    { "path": "./packages/services" },
     { "path": "./packages/skills" },
+    { "path": "./packages/utils" },
     { "path": "./packages/agents" },
     { "path": "./packages/mcp-client" },
     { "path": "./apps/web" },
