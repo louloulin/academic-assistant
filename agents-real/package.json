@@ -1,0 +1,39 @@
+{
+  "name": "@assistant/agents-real",
+  "version": "0.1.0",
+  "description": "基于 Claude Agent SDK 的真实学术助手实现",
+  "type": "module",
+  "author": "Academic Assistant Team",
+  "license": "MIT",
+  "scripts": {
+    "literature": "literature.mjs",
+    "citation": "citation.mjs",
+    "writing": "writing.mjs",
+    "review": "review.mjs",
+    "assistant": "academic-assistant.mjs",
+    "test": "bun test",
+    "test:all": "bun test *.test.mjs"
+  },
+  "dependencies": {
+    "@anthropic-ai/claude-agent-sdk": "^0.2.3"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "bun-types": "latest"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "bun": ">=1.0.0"
+  },
+  "keywords": [
+    "academic",
+    "research",
+    "claude",
+    "agent",
+    "ai",
+    "literature-search",
+    "citation",
+    "writing",
+    "peer-review"
+  ]
+}
