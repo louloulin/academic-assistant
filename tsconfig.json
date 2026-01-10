@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "Bundler",
+    "lib": ["ES2022"],
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "composite": true,
+    "rootDir": "."
+  },
+  "exclude": ["node_modules", "dist", ".next"],
+  "references": [
+    { "path": "./packages/core" },
+    { "path": "./packages/utils" },
+    { "path": "./packages/skills" },
+    { "path": "./packages/agents" },
+    { "path": "./packages/mcp-client" },
+    { "path": "./apps/web" },
+    { "path": "./apps/api" },
+    { "path": "./tools/rust-ffi-bridge" }
+  ]
+}

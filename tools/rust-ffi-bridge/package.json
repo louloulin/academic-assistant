@@ -1,0 +1,16 @@
+{
+  "name": "@assistant/rust-ffi-bridge",
+  "version": "0.1.0",
+  "description": "Rust FFI bridge for TypeScript-Rust interop",
+  "main": "./dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@assistant/core": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.0"
+  }
+}

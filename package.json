@@ -1,0 +1,28 @@
+{
+  "name": "academic-assistant",
+  "version": "0.1.0",
+  "private": true,
+  "description": "AI-powered academic paper writing assistant",
+  "workspaces": [
+    "apps/*",
+    "packages/*",
+    "tools/*"
+  ],
+  "scripts": {
+    "dev": "bun run --filter '*' dev",
+    "build": "bun run --filter '*' build",
+    "test": "bun run --filter '*[[:space:]]test' test",
+    "lint": "bun run --filter '*[[:space:]]lint' lint",
+    "clean": "rm -rf node_modules **/node_modules **/dist **/.next",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\""
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "bun-types": "^1.0.0",
+    "prettier": "^3.2.0",
+    "typescript": "^5.3.0"
+  },
+  "engines": {
+    "bun": ">=1.0.0"
+  }
+}

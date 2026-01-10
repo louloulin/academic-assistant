@@ -1,0 +1,18 @@
+[package]
+name = "literature-search-server"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "literature-search-server"
+path = "src/main.rs"
+
+[dependencies]
+academic-assistant-shared = { path = "../shared" }
+tokio = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+anyhow = { workspace = true }
+tracing = { workspace = true }
+tracing-subscriber = { workspace = true }
+reqwest = { version = "0.11", features = ["json"] }

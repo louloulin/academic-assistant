@@ -1,0 +1,28 @@
+{
+  "name": "@assistant/agents",
+  "version": "0.1.0",
+  "description": "Agents implementation for Academic Assistant",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@assistant/core": "workspace:*",
+    "@assistant/skills": "workspace:*",
+    "@assistant/mcp-client": "workspace:*",
+    "@assistant/utils": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.0"
+  }
+}
