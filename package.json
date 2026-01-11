@@ -14,7 +14,9 @@
     "test": "bun run --filter '*[[:space:]]test' test",
     "lint": "bun run --filter '*[[:space:]]lint' lint",
     "clean": "rm -rf node_modules **/node_modules **/dist **/.next",
-    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\""
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
+    "cli": "bun academic-cli.mjs",
+    "assistant": "bun academic-cli.mjs"
   },
   "devDependencies": {
     "@types/node": "^20.11.0",

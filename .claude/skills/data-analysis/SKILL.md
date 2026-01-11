@@ -6,6 +6,7 @@ allowed-tools:
   - Bash
   - WebSearch
   - Edit
+  - Skill
 ---
 
 # Data Analysis Skill

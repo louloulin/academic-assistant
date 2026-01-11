@@ -5,6 +5,7 @@ allowed-tools:
   - Read
   - WebSearch
   - Edit
+  - Skill
 ---
 
 # Peer Review Skill

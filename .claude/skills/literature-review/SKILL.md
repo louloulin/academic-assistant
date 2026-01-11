@@ -5,6 +5,7 @@ allowed-tools:
   - WebSearch
   - WebFetch
   - Read
+  - Skill
 ---
 
 # Literature Review Skill

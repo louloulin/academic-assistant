@@ -6,6 +6,7 @@ allowed-tools:
   - WebFetch
   - Read
   - Edit
+  - Skill
 ---
 
 # Journal Submission Skill

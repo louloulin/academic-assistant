@@ -44,6 +44,6 @@ Performance Comparison (Page 1)
 ## Extraction Information
 
 - **File**: demo/test-paper.txt
-- **Analyzed**: 2026-01-10T10:41:29.097Z
+- **Analyzed**: 2026-01-10T23:21:50.387Z
 - **Processing Time**: 7ms
 - **Confidence**: 70.0%
