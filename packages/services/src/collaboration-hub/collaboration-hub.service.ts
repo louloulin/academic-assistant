@@ -464,29 +464,15 @@ export class CollaborationHubService {
   }
 
   /**
-   * Generate mock changes for merge request
+   * Generate changes for merge request
+   * In a real implementation, this would use Git diff or similar version control
+   * For now, returns empty array - changes should be populated by actual edits
    */
   private generateMockChanges(branch: string): Change[] {
-    return [
-      {
-        type: 'insertion',
-        position: 100,
-        content: 'Recent advances in AI have transformed...',
-        author: 'alice'
-      },
-      {
-        type: 'modification',
-        position: 250,
-        content: 'Previous studies demonstrated that machine learning approaches...',
-        author: 'bob'
-      },
-      {
-        type: 'deletion',
-        position: 400,
-        content: 'Outdated paragraph',
-        author: 'charlie'
-      }
-    ];
+    // Return empty array - in production, integrate with Git to get real diff
+    // Changes would be accumulated from actual edit operations
+    console.log(`   ℹ️  Changes for branch '${branch}' would be populated by actual edits`);
+    return [];
   }
 
   /**

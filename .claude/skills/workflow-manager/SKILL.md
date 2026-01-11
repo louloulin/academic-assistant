@@ -6,7 +6,7 @@ allowed-tools:
   - Read
   - Write
   - Skill
-context: fork
+context: default
 agent: general-purpose
 ---
 

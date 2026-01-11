@@ -13,6 +13,8 @@
  */
 
 import { query } from '@anthropic-ai/claude-agent-sdk';
+import { promises as fs } from 'fs';
+import * as path from 'path';
 
 // ============================================================================
 // 配置和常量
@@ -22,6 +24,8 @@ const CONFIG = {
   model: 'claude-sonnet-4-5',
   maxTurns: 10,
   timeout: 300000, // 5 minutes
+  outputDir: './output', // 默认输出目录
+  autoSave: true, // 自动保存输出
 };
 
 // ============================================================================
@@ -156,6 +160,69 @@ const SKILLS_REGISTRY = {
 // ============================================================================
 
 /**
+ * 确保输出目录存在
+ */
+async function ensureOutputDir() {
+  const dir = CONFIG.outputDir;
+  try {
+    await fs.access(dir);
+  } catch {
+    await fs.mkdir(dir, { recursive: true });
+    console.log(`📁 创建输出目录: ${dir}`);
+  }
+}
+
+/**
+ * 保存输出到文件
+ */
+async function saveOutput(content, metadata = {}) {
+  if (!CONFIG.autoSave) {
+    return null;
+  }
+
+  await ensureOutputDir();
+
+  const timestamp = new Date().toISOString().slice(0, 19).replace(/[:-]/g, '');
+  const filename = `output-${timestamp}.md`;
+  const filepath = path.join(CONFIG.outputDir, filename);
+
+  // 构建输出内容
+  let output = '';
+
+  if (metadata.title) {
+    output += `# ${metadata.title}\n\n`;
+  }
+
+  if (metadata.timestamp) {
+    output += `**生成时间**: ${metadata.timestamp}\n\n`;
+  }
+
+  if (metadata.skills) {
+    output += `**使用的Skills**: ${metadata.skills.join(', ')}\n\n`;
+  }
+
+  output += '---\n\n';
+  output += content;
+
+  // 写入文件
+  await fs.writeFile(filepath, output, 'utf-8');
+
+  console.log(`\n💾 输出已保存到: ${filepath}`);
+
+  return filepath;
+}
+
+/**
+ * 清理文件名
+ */
+function sanitizeFilename(filename) {
+  return filename
+    .replace(/[<>:"/\\|?*]/g, '-') // 移除不安全字符
+    .replace(/\s+/g, '-') // 空格替换为连字符
+    .slice(0, 100); // 限制长度
+}
+
+/**
  * 显示欢迎信息
  */
 function showWelcome() {
@@ -284,6 +351,7 @@ Use the available skills to fulfill the user's request. You can call other skill
 - Provide accurate and helpful information
 - Cite sources when appropriate
 - Be thorough but concise
+- When generating papers or reports, structure them clearly with sections
 
 Begin processing the request now.`;
 
@@ -307,6 +375,33 @@ Begin processing the request now.`;
     console.log('✅ 处理完成！');
     console.log(`⏱️  耗时: ${(elapsed / 1000).toFixed(2)}秒`);
     console.log('─'.repeat(70) + '\n');
+
+    // 自动保存输出
+    if (CONFIG.autoSave) {
+      try {
+        // 收集响应内容
+        let responseContent = '';
+
+        for await (const message of response) {
+          if (message.type === 'text') {
+            responseContent += message.text;
+          }
+        }
+
+        // 保存到文件
+        const outputFile = await saveOutput(responseContent, {
+          title: `学术助手输出 - ${selectedSkills.join(' & ')}`,
+          timestamp: new Date().toISOString(),
+          skills: selectedSkills
+        });
+
+        if (outputFile) {
+          console.log(`✅ 输出已自动保存到: ${outputFile}\n`);
+        }
+      } catch (saveError) {
+        console.warn(`⚠️  保存输出失败: ${saveError.message}`);
+      }
+    }
 
     return response;
   } catch (error) {

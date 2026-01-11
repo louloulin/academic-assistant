@@ -16,7 +16,9 @@
     "clean": "rm -rf node_modules **/node_modules **/dist **/.next",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
     "cli": "bun academic-cli.mjs",
-    "assistant": "bun academic-cli.mjs"
+    "assistant": "bun academic-cli.mjs",
+    "generate-paper": "bun demo/real-paper-generator-v2.mjs",
+    "paper": "bun demo/real-paper-generator-v2.mjs"
   },
   "devDependencies": {
     "@types/node": "^20.11.0",

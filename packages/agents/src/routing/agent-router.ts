@@ -291,19 +291,52 @@ export class AgentRouter implements IAgentRouter {
   }
 
   /**
-   * Execute single agent
+   * Execute single agent using Claude Agent SDK
    */
   private async executeAgent(agent: AgentDefinition, request: any): Promise<any> {
     const prompt = this.buildAgentPrompt(agent, request);
 
-    // Simulate agent execution (in production, use real SDK)
-    // For now, return mock result
-    return {
-      agent: agent.name,
-      status: 'success',
-      timestamp: new Date().toISOString(),
-      data: `Executed ${agent.name} with request: ${request.text?.substring(0, 50)}...`
-    };
+    if (!queryFunction) {
+      throw new Error('Claude Agent SDK not available. Please install @anthropic-ai/claude-agent-sdk');
+    }
+
+    try {
+      console.log(`   🤖 Calling ${agent.name}...`);
+
+      const response = await queryFunction({
+        prompt,
+        options: {
+          model: 'claude-sonnet-4-5',
+          maxTurns: 5,
+          settingSources: ['user', 'project'],
+          allowedTools: ['Skill', 'WebSearch', 'WebFetch', 'Read', 'Write', 'Bash', 'Edit'],
+        }
+      });
+
+      let content = '';
+      let messageCount = 0;
+
+      for await (const message of response) {
+        if (message.type === 'text') {
+          messageCount++;
+          content += message.text;
+        }
+      }
+
+      console.log(`   ✓ ${agent.name} completed (${messageCount} messages)`);
+
+      return {
+        agent: agent.name,
+        status: 'success',
+        timestamp: new Date().toISOString(),
+        data: content,
+        messageCount,
+        capabilities: agent.capabilities
+      };
+    } catch (error: any) {
+      console.error(`   ✗ ${agent.name} failed: ${error.message}`);
+      throw error;
+    }
   }
 
   /**
